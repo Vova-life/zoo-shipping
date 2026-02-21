@@ -1,14 +1,8 @@
-# Dependencies
 backend/vendor/
+backend/var/
+backend/.env.local
 frontend/node_modules/
-
-# Environments and IDE
-.env
-.env.local
+frontend/dist/
 .idea/
 .vscode/
-
-# Build files
-frontend/dist/
-backend/var/cache/
-backend/var/log/
+*.log

@@ -1,31 +1,24 @@
 # ZOO Shipping Calculator Test Task
 
 ## Технології
-- **Backend**: PHP 8.2 (Symfony)
-- **Frontend**: Vue.js 3 (Vite)
-- **Infrastructure**: Docker (Nginx, PHP-FPM, UI)
+- **Backend**: PHP 8.2 (Symfony 7)
+- **Frontend**: Bootstrap 5 + Vanilla JS (інтегровано в Symfony для стабільності)
+- **Infrastructure**: Docker (Nginx, PHP-FPM)
 - **Testing**: PHPUnit
 
 ## Архітектурні рішення
-- Реалізовано патерн **Strategy** для розрахунку вартості доставки (відповідає принципу Open/Closed).
-- Використано **Dependency Injection** та **Tagged Iterators** для автоматичної реєстрації нових стратегій. Система максимально гнучка: додавання нового перевізника потребує лише створення нового класу без редагування основного коду калькулятора.
-- Реалізовано валідацію вхідних даних на рівні API.
+- **Strategy Pattern**: Розрахунок вартості для кожного перевізника винесено в окремий клас. Це дозволяє легко додавати нових перевізників без зміни логіки сервісу-калькулятора.
+- **Symfony Tagged Iterators**: Стратегії реєструються автоматично через Dependency Injection.
+- **Unified Interface**: Фронтенд та API працюють на одному порті (8080), що виключає проблеми з CORS та забезпечує миттєву роботу інтерфейсу.
 
 ## Як запустити
-1. Переконайтеся, що Docker встановлений.
-2. Запустіть контейнери: `docker-compose up -d --build`
-3. Встановіть бібліотеки бекенду: `docker-compose exec php composer install`
-4. Встановіть бібліотеки фронтенду (якщо не встановилися автоматично): `docker-compose exec ui npm install`
+1. Запустіть контейнери: `docker-compose up -d --build`
+2. Встановіть залежності: `docker-compose exec php composer install`
+
+## Доступ до проекту
+- **Frontend UI**: [http://localhost:8080](http://localhost:8080)
+- **API Endpoint**: `POST http://localhost:8080/api/shipping/calculate`
 
 ## Тестування
-Проект покритий Unit-тестами для перевірки бізнес-логіки розрахунків:
+Проект покритий Unit-тестами:
 `docker-compose exec php ./vendor/bin/phpunit tests`
-
-## API Endpoints
-- **URL**: `/api/shipping/calculate`
-- **Method**: `POST`
-- **Request Body**: `{"carrier": "transcompany", "weightKg": 10}`
-- **Response Success**: `{"carrier": "transcompany", "weightKg": 10, "currency": "EUR", "price": 20}`
-
-## Frontend UI
-Інтерфейс доступний за адресою: `http://localhost:5173` (або по IP сервера)

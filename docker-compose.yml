@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    networks:
+      - zoo-network
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+    networks:
+      - zoo-network
+
+  ui:
+    build:
+      context: .
+      dockerfile: ./docker/ui/Dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - zoo-network
+
+networks:
+  zoo-network:
+    driver: bridge

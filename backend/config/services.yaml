@@ -1,3 +1,5 @@
+parameters:
+
 services:
     _defaults:
         autowire: true
@@ -5,8 +7,7 @@ services:
 
     App\:
         resource: '../src/'
-        exclude: '../src/{DependencyInjection,Entity,Kernel.php}'
-
-    _instanceof:
-        App\Service\Shipping\CarrierStrategyInterface:
-            tags: ['app.shipping_strategy']
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
